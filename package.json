@@ -1,0 +1,35 @@
+{
+  "name": "split-command",
+  "version": "0.0.1",
+  "description": "a framework for write separable command line application",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lvscar/split-command.git"
+  },
+  "files":[
+      "index.js"
+  ],
+  "author": "lvscar@gmail.com",
+  "license": "GPL-3.0+",
+  "dependencies": {
+    "yargs": "^6.0.0",        
+    "babel-plugin-transform-runtime": "^6.12.0",
+    "babel-runtime": "^6.11.6"        
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.6.0",
+    "browserify": "^13.0.0",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-less": "^3.0.5",
+    "gulp-rename": "^1.2.2",
+    "gulp-wrap": "^0.11.0",
+    "vinyl-source-stream": "^1.1.0"
+  }    
+}
