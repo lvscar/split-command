@@ -3,11 +3,7 @@ var fs = require('fs')
   del = require('del'),
   babel = require('gulp-babel'),
   rename = require('gulp-rename'),
-  concat = require('gulp-concat'),
-  source = require('vinyl-source-stream'),
-  path = require('path'),
-  less = require('gulp-less'),
-  wrap  = require('gulp-wrap');    
+  concat = require('gulp-concat');
 
 
 gulp.task('clean', function() {
