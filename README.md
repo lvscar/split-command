@@ -13,7 +13,7 @@ If your Node command line application is versatile, we encourage you to ship the
 
 ## Usage
 
-### No.1 package.json configuration
+### Step.1 package.json configuration
 In the package.json file of your core application, add a "splitCommands" section like following example. The "splitCommands" section should as top layer property of the JSON structure:
 
 ```
@@ -28,16 +28,41 @@ In the package.json file of your core application, add a "splitCommands" section
       }
   }
 ```
-### No.2 code example
+
+The `up` and `down` are "split" sub command of main application,their real name of executable command are described using `exec` field and their install command are described using `install` field.
+
+If the executable command name of your main application if "my-app". User can type following cmd
+
+```shell
+$my-app up arg1 arg2 
+```
+
+instead of
+
+
+```shell
+$my-app-above-part arg1 arg2 
+```
+
+### Step.2 main application entry code
+
+Beside package.json configuration , you need add 2 line to your code for enabling SplitCommand.
+
+```javascript
+var splitCommand = require('split-command');
+splitCommand();
+```
+
+We demonstrate an example of combining `yargs` and `split-command`:
 
 ```
 var yargs = require('yargs');
 var splitCommand = require('split-command');
 
 var argv = yargs
-    .usage('\nUsage: $0 coreCommand'
-           + '\nUsage: $0 up(split cmd) '
-           + '\nUsage: $0 down(split cmd) '                      
+    .usage('\nUsage: $0 coreCommand'                      // normal sub command in your main application
+           + '\nUsage: $0 up(split cmd) '                 // split command 
+           + '\nUsage: $0 down(split cmd) '               // another split command       
           )
     .command('coreCommand' , 'internal core feature')
     .command('up' ,  'some cool feature suitable lazy install')
@@ -47,9 +72,9 @@ var argv = yargs
 
 (function argvProcess(){
     if (argv._[0] === 'coreCommand') {    
-        console.log("coreCommand running....")
+        console.log("coreCommand running....")        // any awesome logic  of your normal sub command
     }
-    splitCommand();
+    splitCommand();                                   // let's split command do the rest
 })()
 ```
 
