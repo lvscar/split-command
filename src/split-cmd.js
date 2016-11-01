@@ -1,4 +1,3 @@
-const yargs = require('yargs');
 const exec = require('child_process').exec;
 const spawn = require('child_process').spawn;
 
@@ -32,15 +31,25 @@ function forkRun(cmdExec ,argList){
     });
 }
 
-module.exports = function(execCmd,installCmd ) {
+module.exports = function(projectPackageJson, execCmd,installCmd ) {
     
+    if ( (!projectPackageJson)  || ( !projectPackageJson.splitCommands)   ){
+        console.info("Please check your SplitCommand congifuration")
+        return false
+    }
+
+    var args,cmd,splitCmds
+    args = process.argv    
     if ((!execCmd) || (!installCmd)){
-        var argv = yargs.argv
-        var cmd = argv._[0]                    
-        var splitCmds = require('../../package.json').splitCommands
+        if (args.length > 2){
+            cmd = args[2]
+            splitCmds = projectPackageJson.splitCommands            
+        }else{
+            return false
+        }
 
         if (!splitCmds[cmd]){
-            return
+            return false
         }
         
         if (! execCmd){
@@ -52,12 +61,12 @@ module.exports = function(execCmd,installCmd ) {
         
         if ((!execCmd) || (!installCmd)){
             console.error("can't read split command configuration in your package.json")
-            process.exit()                
+            return false
         }
     }
     
-    checkCmdExists(execCmd).then(function(){
-        forkRun(execCmd,argv._.slice(1))            
+    return !! checkCmdExists(execCmd).then(function(){
+        forkRun(execCmd,args.slice(3))            
     }).catch(function(){
         console.log(`please run:\n  ${installCmd}\nto install this command first`)
     })            

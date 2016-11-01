@@ -49,8 +49,9 @@ $my-app-above-part arg1 arg2
 Beside package.json configuration , you need add 2 lines to your code for enabling SplitCommand.
 
 ```javascript
-var splitCommand = require('split-command');
-splitCommand();
+var projectPackageJSON = require('../package.json');  // configuration file of your project 
+require('split-command')(projectPackageJSON);
+
 ```
 
 We demonstrate an example of combining `yargs` and `split-command`:
@@ -72,9 +73,10 @@ var argv = yargs
 
 (function argvProcess(){
     if (argv._[0] === 'coreCommand') {    
-        console.log("coreCommand running....")        // any awesome logic  of your normal sub command
+        console.log("coreCommand running....")             // any awesome logic  of your normal sub command
     }
-    splitCommand();                                   // let's split command do the rest
+    var projectPackageJSON = require('../package.json');  // configuration file of your project     
+    var isSplitCommandMatched = splitCommand(projectPackageJSON); // let's split command do the rest
 })()
 ```
 
@@ -89,5 +91,6 @@ The split part should be write as normal Node command line application. When the
 * windows support
 
 ## Release History
+* 161101(0.0.4): remove dependence of yargs
 * 161027(0.0.3): first version
 
