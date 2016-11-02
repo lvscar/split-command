@@ -1,19 +1,37 @@
-const exec = require('child_process').exec;
-const spawn = require('child_process').spawn;
+const exec = require('child_process').exec
+const spawn = require('child_process').spawn
 
-function checkCmdExists(commandName) {
+function generatePromiseWrapper(){
     var promiseData = {promise: null,resolver: null,rejecter: null}
     promiseData.promise = new Promise(function (resolve, reject) {
         promiseData.resolver = resolve
         promiseData.rejecter = reject
     })    
+    return promiseData
+}
+
+
+function checkCmdExistsUnix(commandName) {
+    var promiseData = generatePromiseWrapper()
     var child = exec(`command -v ${commandName}`,
         function (error, stdout, stderr) {
             if (error) {
                 promiseData.rejecter()                
             }
             promiseData.resolver()                        
-        });
+        })
+    return promiseData.promise
+}
+
+function checkCmdExistsWin(commandName){
+    var promiseData = generatePromiseWrapper()
+    var child = exec(`where.exe ${commandName}`,
+        function (error, stdout, stderr) {
+            if (error) {
+                promiseData.rejecter()                
+            }
+            promiseData.resolver()                        
+        })
     return promiseData.promise
 }
 
@@ -63,6 +81,13 @@ module.exports = function(projectPackageJson, execCmd,installCmd ) {
             console.error("can't read split command configuration in your package.json")
             return false
         }
+    }
+
+    var checkCmdExists
+    if (process.platform == "win32"){
+        checkCmdExists = checkCmdExistsWin
+    }else{
+        checkCmdExists = checkCmdExistsUnix
     }
     
     return !! checkCmdExists(execCmd).then(function(){
