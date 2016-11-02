@@ -36,7 +36,7 @@ function checkCmdExistsWin(commandName){
 }
 
 function forkRun(cmdExec ,argList){
-    var childP = spawn(cmdExec ,argList);
+    var childP = spawn(cmdExec ,argList,{shell:true});
     childP.stdout.pipe(process.stdout);
     childP.stderr.pipe(process.stderr);
     

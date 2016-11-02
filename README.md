@@ -92,7 +92,7 @@ The split sub commands should be write as normal Node command line application. 
 
 
 ## Release History
-* 161102(0.0.6): add windows support & document update
+* 161102(0.0.7): add windows support & document update
 * 161101(0.0.4): remove dependence of yargs
 * 161027(0.0.3): first version
 
