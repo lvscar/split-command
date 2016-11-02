@@ -91,6 +91,7 @@ The split part should be write as normal Node command line application. When the
 * windows support
 
 ## Release History
+* 161102(0.0.5): add windows support
 * 161101(0.0.4): remove dependence of yargs
 * 161027(0.0.3): first version
 
